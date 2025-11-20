@@ -1,0 +1,13 @@
+name: "Saludo Personalizado"
+description: "Acción que imprime un saludo con un nombre"
+author: "Jesus"
+
+inputs:
+  name:
+    description: "Nombre de la persona a saludar"
+    required: true
+    default: "Jesús"
+
+runs:
+  using: "node20"
+  main: "index.js"

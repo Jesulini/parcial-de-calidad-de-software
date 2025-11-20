@@ -85,3 +85,35 @@ El pipeline debe fallar si:
 La cobertura global es < 80%.
 
 Algún archivo cae por debajo del umbral.
+
+Ejecución Local con nektos/act
+
+Este proyecto soporta ejecución del pipeline de GitHub Actions de forma local usando nektos/act.
+
+¿Qué es act?
+
+act es una herramienta que permite ejecutar workflows de GitHub Actions en la máquina local, utilizando contenedores Docker. Esto permite probar el pipeline sin realizar commits ni pushes.
+
+Requisitos
+
+Tener Docker Desktop instalado y en ejecución (Docker Engine: Running).
+
+Tener act instalado en el sistema.
+
+Comandos de ejecución
+
+Ejecutar el workflow como si fuera un push:
+
+act push
+
+Si necesitas especificar una imagen compatible con ubuntu-latest:
+
+act push -P ubuntu-latest=catthehacker/ubuntu:act-latest
+
+Modo detallado (verbose):
+
+act push -v
+
+Ejecutar solo un job:
+
+act -j ci

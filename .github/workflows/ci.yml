@@ -1,0 +1,58 @@
+name: CI Quality Pipeline
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Saludo de calidad
+        uses: ./.github/actions/saludo
+        with:
+          name: "Jesús"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      # Linter usando npx -> evita permisos y errores en act
+      - name: Run linter
+        run: npx --yes eslint .
+
+
+      # Build del proyecto
+      - name: Build project
+        run: npm run build
+
+      # Tests con coverage
+      - name: Run tests with coverage
+        run: npm run test:ci
+
+      # Necesario para act (jq y bc no vienen instalados en las imágenes)
+      - name: Install jq and bc (needed for Act)
+        run: sudo apt-get update && sudo apt-get install -y jq bc
+
+      # Validación del porcentaje de cobertura mínimo
+      - name: Validate coverage threshold
+        run: |
+          echo "Validating coverage..."
+          COVERAGE=$(jq '.total.lines.pct' coverage/coverage-summary.json)
+          echo "Coverage: $COVERAGE%"
+          REQUIRED=80
+          RESULT=$(echo "$COVERAGE < $REQUIRED" | bc -l)
+          if [ "$RESULT" -eq 1 ]; then
+            echo "Coverage threshold not met. Required: $REQUIRED%"
+            exit 1
+          fi
+          echo "Coverage OK"
