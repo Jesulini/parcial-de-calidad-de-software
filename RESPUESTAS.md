@@ -70,4 +70,4 @@ Resultado final:
 
 Job failed
 
-
+Para ver los errores y las validaciones dirigirse a la carpeta images para mas informacion

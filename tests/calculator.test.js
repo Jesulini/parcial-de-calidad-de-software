@@ -1,4 +1,4 @@
-const Calculator = require('../src/calculator');
+const Calculator = require('../src/test-run');
 const calc = new Calculator();
 
 test('suma correcta', () => {

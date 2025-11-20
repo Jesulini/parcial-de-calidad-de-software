@@ -117,3 +117,5 @@ act push -v
 Ejecutar solo un job:
 
 act -j ci
+
+si quuiere mas informacion sobre los errores y las validaciones de los test se le invita a ver RESPUESTAS.md
